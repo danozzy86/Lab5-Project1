@@ -62,9 +62,9 @@ namespace Lab5_Project1
                             AfterLoopStay:;
                             PrintMenu(4, playerHand, dealerHand, i+1);
 
-                            //Notifies the player if they went over or got blackjack
+                            //Notifies the player if they went over or got 21
                             if (playerHand == 21){
-                                Console.WriteLine("Blackjack!");
+                                Console.WriteLine("21!");
                                 Console.ReadKey();
                             }
                             else if (playerHand > 21){
@@ -74,14 +74,22 @@ namespace Lab5_Project1
                             playerArr[i] = playerHand;
                         }
 
+                        //Adds the dealers second card to the total
+                        dealerHand += Draw(dealerHand);
+
                         //The dealer draws from the deck given certain parameters
                         while(dealerHand < 17){
                             foreach (int i in playerArr){
                                 if (i > dealerHand && i < 21){
                                     dealerHand += Draw(dealerHand);
                                 }
+                                else {
+                                    goto AfterLoopDealer;
+                                }
                             }
                         }
+                        AfterLoopDealer:;
+
                         //Now it is time to check which players have won, lost, or pushed
                         CheckWin(playerArr, dealerHand);
 
